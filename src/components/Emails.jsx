@@ -4,7 +4,7 @@ import EmailView from "./EmailView"
 import { useState } from "react"
 
 
-function Emails({emails, setEmails, hideRead, setHideRead, currentTab, setCurrentTab})
+function Emails({emails, setEmails, hideRead, setHideRead, currentTab, setCurrentTab, searchInput})
 {
 
     const [emailData, setEmailData] = useState()
@@ -13,14 +13,20 @@ function Emails({emails, setEmails, hideRead, setHideRead, currentTab, setCurren
 
     const getStarredEmails = emails => emails.filter(email => email.starred)
 
+    const getSearchedEmails = emails => emails.filter(email => email.title.includes(searchInput))
+
   let filteredEmails = emails
+
+
+  if (searchInput != '') filteredEmails = getSearchedEmails(filteredEmails)
+
 
   if (hideRead) filteredEmails = getReadEmails(filteredEmails)
 
   if (currentTab === 'starred')
     filteredEmails = getStarredEmails(filteredEmails)
 
-    console.log(filteredEmails)
+    //console.log(filteredEmails)
 
     const toggleStar = targetEmail => {
         const updatedEmails = emails =>
